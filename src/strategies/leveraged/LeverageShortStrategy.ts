@@ -26,7 +26,11 @@ export class LeverageShortStrategy extends BaseStrategy<LeverageShortIntent> {
     if (!swapAdapter.swap) throw new Error(`Protocol '${swapProtocol}' does not support swap`);
 
     // Calculate the flash loan amount: (leverageFactor - 1) × collateral
-    const flashLoanAmount = intent.collateralAmount.raw * BigInt(Math.floor((intent.leverageFactor - 1) * 1000)) / 1000n;
+    // Uses 1e6 multiplier for precision up to 6 decimal places on the leverage factor
+    const PRECISION = 1_000_000n;
+    const flashLoanAmount = intent.collateralAmount.raw
+      * BigInt(Math.round((intent.leverageFactor - 1) * Number(PRECISION)))
+      / PRECISION;
 
     // 1. Flash loan stable coin
     const { coin: flashCoin, receipt } = lendingAdapter.flashLoan(tx, ctx, {

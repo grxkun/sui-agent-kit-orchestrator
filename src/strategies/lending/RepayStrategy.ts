@@ -21,7 +21,8 @@ export class RepayStrategy extends BaseStrategy<RepayIntent> {
     }
 
     if (intent.amount === 'max') {
-      // For max repay, use a large sentinel value so the adapter can handle full repayment
+      // Sentinel value (u64::MAX) signals full debt repayment; protocol adapters
+      // are expected to clamp to the actual outstanding balance.
       const maxCoin = coinManager.splitCoin(tx, intent.coin, BigInt('18446744073709551615'));
       adapter.repay(tx, ctx, { coin: maxCoin });
       builder.addSummary(`Repay max ${intent.coin} to ${intent.protocol}`);
