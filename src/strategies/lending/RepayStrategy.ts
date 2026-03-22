@@ -5,6 +5,9 @@ import type { RepayIntent } from '../../intents/types.js';
 import type { BuildContext, BuiltPTB } from '../../ptb/types.js';
 import type { ProtocolRegistry } from '../../protocols/ProtocolRegistry.js';
 
+/** u64::MAX — sentinel value that signals full debt repayment */
+const U64_MAX = 18_446_744_073_709_551_615n;
+
 export class RepayStrategy extends BaseStrategy<RepayIntent> {
   readonly name = 'RepayStrategy' as const;
   readonly intentType = 'REPAY' as const;
@@ -21,9 +24,8 @@ export class RepayStrategy extends BaseStrategy<RepayIntent> {
     }
 
     if (intent.amount === 'max') {
-      // Sentinel value (u64::MAX) signals full debt repayment; protocol adapters
-      // are expected to clamp to the actual outstanding balance.
-      const maxCoin = coinManager.splitCoin(tx, intent.coin, BigInt('18446744073709551615'));
+      // Protocol adapters are expected to clamp to the actual outstanding balance.
+      const maxCoin = coinManager.splitCoin(tx, intent.coin, U64_MAX);
       adapter.repay(tx, ctx, { coin: maxCoin });
       builder.addSummary(`Repay max ${intent.coin} to ${intent.protocol}`);
     } else {

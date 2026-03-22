@@ -35,7 +35,7 @@ describe('OrchestratorMiddleware', () => {
     const orchestrator = new OrchestratorMiddleware({
       rpcUrl: 'https://fullnode.testnet.sui.io:443',
       network: 'testnet',
-      senderAddress: '0x1234',
+      senderAddress: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
       executor: vi.fn(),
     });
 
@@ -46,7 +46,7 @@ describe('OrchestratorMiddleware', () => {
     const orchestrator = new OrchestratorMiddleware({
       rpcUrl: 'https://fullnode.testnet.sui.io:443',
       network: 'testnet',
-      senderAddress: '0x1234',
+      senderAddress: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
       executor: vi.fn(),
       policyMiddleware: {
         verify: async () => ({ status: 'BLOCK' as const }),
@@ -66,7 +66,7 @@ describe('OrchestratorMiddleware', () => {
     const orchestrator = new OrchestratorMiddleware({
       rpcUrl: 'https://fullnode.testnet.sui.io:443',
       network: 'testnet',
-      senderAddress: '0x1234',
+      senderAddress: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
       executor: vi.fn(),
     });
 
@@ -81,7 +81,7 @@ describe('OrchestratorMiddleware', () => {
     const orchestrator = new OrchestratorMiddleware({
       rpcUrl: 'https://fullnode.testnet.sui.io:443',
       network: 'testnet',
-      senderAddress: '0x1234',
+      senderAddress: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
       executor: vi.fn(),
     });
 
